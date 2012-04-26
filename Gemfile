@@ -5,13 +5,14 @@ gem 'rails', '3.2.2'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'sqlite3'
+gem 'sqlite3', :groups => [:development, :test]
 
 gem 'json'
 gem 'twitter-bootstrap-rails'
 gem 'bcrypt-ruby', '~> 3.0.0'
 gem 'omniauth-identity'
 gem 'therubyracer'
+gem 'heroku'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -26,6 +27,7 @@ group :assets do
 end
 
 gem 'jquery-rails'
+gem 'pg', :group => :production
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

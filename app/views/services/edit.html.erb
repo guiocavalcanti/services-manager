@@ -7,3 +7,6 @@
 <%= form_for @service, :as => :service, :url => service_path(@service), :html => { :class => 'form-horizontal' } do |f| %>
   <%= render :partial => 'services/form', :locals => { :f => f } %>
 <% end %>
+<%= form_for @service, :as => :service, :url => service_path(@service), :method => :delete do |f| %>
+  <%= f.button 'Destroy this service', :class => 'btn  pull-right btn-danger' %>
+<% end %>

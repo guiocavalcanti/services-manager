@@ -1,4 +1,5 @@
 ServiceManager::Application.routes.draw do
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -59,5 +60,6 @@ ServiceManager::Application.routes.draw do
   match "/auth/:provider/callback" => "sessions#create"
   match "/signout" => "sessions#destroy", :as => :signout
   resources :identities
+
   resources :services
 end

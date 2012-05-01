@@ -5,7 +5,6 @@ gem 'rails', '3.2.2'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'sqlite3', :groups => [:development, :test]
 
 gem 'json'
 gem 'twitter-bootstrap-rails'
@@ -29,6 +28,12 @@ end
 gem 'jquery-rails'
 gem 'pg', :group => :production
 
+group :development, :test do
+  gem 'rspec-rails'
+  gem 'sqlite3'
+  gem 'ruby-debug'
+end
+
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
@@ -42,4 +47,3 @@ gem 'pg', :group => :production
 # gem 'capistrano'
 
 # To use debugger
-# gem 'ruby-debug'

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120426120223) do
+ActiveRecord::Schema.define(:version => 20120429195159) do
 
   create_table "identities", :force => true do |t|
     t.string   "name"
@@ -18,6 +18,18 @@ ActiveRecord::Schema.define(:version => 20120426120223) do
     t.string   "password_digest"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
+  end
+
+  create_table "services", :force => true do |t|
+    t.string   "name"
+    t.string   "type"
+    t.text     "xquery"
+    t.datetime "start_time"
+    t.integer  "recurrence"
+    t.time     "interval"
+    t.integer  "user_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "users", :force => true do |t|

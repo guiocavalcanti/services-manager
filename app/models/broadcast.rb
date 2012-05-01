@@ -1,0 +1,2 @@
+class Broadcast < Service
+end

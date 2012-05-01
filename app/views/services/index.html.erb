@@ -1,2 +1,21 @@
-<h1>Services#index</h1>
-<p>Find me in app/views/services/index.html.erb</p>
+<div class="page-header">
+  <h1>Your services
+    <small>Here are your services. Click to edit.</small>
+    <%= link_to "Create new service", new_service_path, :class => 'pull-right btn' %>
+  </h1>
+</div>
+
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th  width="80%">Service name</th>
+      <th>Service type</th>
+    </tr>
+  </thead>
+  <% @services.each do |service| %>
+    <tr>
+      <td><%= link_to service.name, edit_service_path(service) %></td>
+      <td><%= service.type %></td>
+    </tr>
+  <% end %>
+</table>

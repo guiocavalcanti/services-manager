@@ -12,53 +12,5 @@
 </ul>
 
 <%= form_for @service, :as => :service, :url => services_path, :html => { :class => 'form-horizontal' } do |f| %>
-  <% if f.object && f.object.errors.any? %>
-    <div class="error_messages">
-      <h2><%= pluralize(f.object.errors.count, "error") %> prohibited this account from being saved:</h2>
-      <ul>
-        <% f.object.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <% if @service.is_a? Immediate %>
-    <%= f.hidden_field :type, :value => 'Immediate' %>
-    <%= render :partial => 'services/name_and_xquery', :locals => { :f => f } %>
-  <% elsif @service.is_a? Broadcast %>
-    <%= f.hidden_field :type,  :value => 'Broadcast' %>
-    <%= render :partial => 'services/name_and_xquery', :locals => { :f => f } %>
-  <% elsif @service.is_a? Event %>
-    <%= f.hidden_field :type,  :value => 'Event' %>
-    <%= render :partial => 'services/name_and_xquery', :locals => { :f => f } %>
-  <% elsif @service.is_a? Subscription %>
-    <%= f.hidden_field :type,  :value => 'Subscription' %>
-    <%= render :partial => 'services/name_and_xquery', :locals => { :f => f } %>
-    <%= content_tag('div', :class => "control-group #{ f.object.errors.has_key?(:interval) ? 'error' : ''}") do %>
-      <%= f.label :interval, :class => 'control-label' %>
-      <%= content_tag('div', :class => 'controls') do %>
-        <%= f.time_select :interval, {:include_seconds => true}, {:class => 'span1'} %>
-      <% end %>
-    <% end %>
-
-    <%= content_tag('div', :class => "control-group #{ f.object.errors.has_key?(:start_time) ? 'error' : ''}") do %>
-      <%= f.label :start_time, :class => 'control-label' %>
-      <%= content_tag('div', :class => 'controls') do %>
-        <%= f.datetime_select :start_time, {}, :class => 'span1' %>
-      <% end %>
-    <% end %>
-
-    <%= content_tag('div', :class => "control-group #{ f.object.errors.has_key?(:recurrence) ? 'error' : ''}") do %>
-      <%= f.label :recurrence, :class => 'control-label' %>
-      <%= content_tag('div', :class => 'controls') do %>
-        <%= f.text_field :recurrence, :class => 'input-mini' %>
-        <%= content_tag(:p,  "Amount of times the event should occur", :class => 'help-block' ) %>
-      <% end %>
-    <% end %>
-  <% end %>
-
-  <%= content_tag('div', :class => 'form-actions') do %>
-    <%= f.button 'Submit', :class => 'btn btn-primary' %>
-  <% end %>
+  <%= render :partial => 'services/form', :locals => { :f => f } %>
 <% end %>

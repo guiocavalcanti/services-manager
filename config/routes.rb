@@ -49,7 +49,7 @@ ServiceManager::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  root :to => 'welcome#index'
+  root :to => 'services#index'
 
   # See how all your routes lay out with "rake routes"
 
@@ -59,7 +59,7 @@ ServiceManager::Application.routes.draw do
 
   match "/auth/:provider/callback" => "sessions#create"
   match "/signout" => "sessions#destroy", :as => :signout
+  match "/sessions/new", :to => "sessions#new"
   resources :identities
-
   resources :services
 end

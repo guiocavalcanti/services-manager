@@ -1,7 +1,9 @@
 class ServicesController < ApplicationController
   respond_to :html
+  before_filter :login_required
 
   def index
+    @services = current_user.services
   end
 
   def new
@@ -17,11 +19,12 @@ class ServicesController < ApplicationController
                  when 'Event' then Event.new(params[:service])
                  when 'Subscription' then Subscription.new(params[:service])
                  end
+    @service.user = current_user
 
     respond_with(@service) do |format|
       format.html do
         if @service.save
-          redirect_to @service
+          redirect_to services_path
         else
           render :new
         end
@@ -30,12 +33,26 @@ class ServicesController < ApplicationController
   end
 
   def update
+    type = params[:service].delete(:type)
+    @service = Service.find(params[:id])
+    @service.update_attributes(params[:service])
+
+    respond_with(@service) do |format|
+      format.html do
+        if @service.save
+          redirect_to services_path
+        else
+          render :edit
+        end
+      end
+    end
   end
 
   def destroy
   end
 
-  def show
+  def edit
+    @service = Service.find(params[:id])
   end
 
   protected
@@ -44,5 +61,9 @@ class ServicesController < ApplicationController
     service ||= Service.new
     type = params.fetch(:type, 'immediate')
     service.becomes(type.camelize.constantize)
+  end
+
+  def login_required
+    redirect_to '/sessions/new' unless current_user
   end
 end

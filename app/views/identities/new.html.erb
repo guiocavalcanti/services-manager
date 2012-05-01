@@ -1,5 +1,5 @@
 <div class="page-header">
-  <h1>Create your account now
+  <h1>Create an account or login
   </h1>
 </div>
 
@@ -9,9 +9,9 @@
     <div class="error_messages">
       <h2><%= pluralize(@identity.errors.count, "error") %> prohibited this account from being saved:</h2>
       <ul>
-      <% @identity.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
+        <% @identity.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
       </ul>
     </div>
   <% end %>
@@ -31,5 +31,8 @@
     <%= label_tag :password_confirmation %>
     <%= password_field_tag :password_confirmation %>
   </div>
-  <div class="actions"><%= submit_tag "Register", :class => "btn btn-primary btn-large" %></div>
+  <div class="actions">
+    <%= submit_tag "Register", :class => "btn btn-primary btn-large" %>
+    <%= link_to "Login", '/sessions/new', :class => "btn btn-inverse btn-large" %>
+  </div>
 <% end %>

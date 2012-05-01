@@ -1,0 +1,9 @@
+<%= form_tag "/auth/identity/callback" do %>
+  <%= label_tag :auth_key, "Email" %><br>
+  <%= text_field_tag :auth_key %>
+  <%= label_tag :password %><br>
+  <%= password_field_tag :password %>
+  <div class="actions">
+    <%= submit_tag "Login", :class => "btn btn-primary btn-large" %>
+  </div>
+<% end %>

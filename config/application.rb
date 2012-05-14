@@ -55,5 +55,7 @@ module ServiceManager
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+
+    config.task_manager_url = 'http://108.166.91.253:8080/webservices/rest/communicationService'
   end
 end

@@ -32,7 +32,10 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'sqlite3'
   gem 'ruby-debug'
+  gem 'faraday'
 end
+
+gem 'webmock', :group => :test
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

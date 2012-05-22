@@ -2,23 +2,26 @@ class Service < ActiveRecord::Base
   validates_presence_of :name, :type
   validates :type,
     :inclusion => { :in => %w(Immediate Subscription Event Broadcast)}
-  validate :remote_must_be_valid
+  validate :create_on_webservice, :on => :create
 
   belongs_to :user
 
   protected
 
-  def remote_must_be_valid
-    response = connection.post('service') do |request|
+  def create_on_webservice(raise_errors=true)
+    response = fire_create
+
+    if response.success? && (result = Hash.from_xml(response.body))
+      self.external_id = result['ServiceId']
+    elsif raise_errors
+      errors.add(:remote, "remote server error (#{response.status})")
+    end
+  end
+
+  def fire_create
+    connection.post('service') do |request|
       request.headers['Content-Type'] = 'application/xml'
       request.params = remote_params
-    end
-
-    if response.success?
-      result = Hash.from_xml(response.body)
-      self.external_id = result['ServiceId'] unless result.blank?
-    else
-      errors.add(:remote, "remote server error (#{response.status})")
     end
   end
 

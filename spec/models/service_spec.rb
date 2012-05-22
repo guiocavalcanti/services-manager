@@ -67,5 +67,16 @@ describe Service do
         service.save
       }.to_not raise_error(NoMethodError)
     end
+
+    it "should not send any requests on update" do
+      stub_request(:any, /108\.166\.91\.253/).
+        to_return(sample_response)
+
+      service = Immediate.new(:name => 'xim', :xquery => 'abc')
+      service.should_receive(:create_on_webservice).once
+
+      service.save
+      service.update_attributes(:name => 'test')
+    end
   end
 end

@@ -20,10 +20,9 @@ describe Subscription do
   context "remote" do
     it "should send correct params" do
       time = DateTime.now
-      body = "Name=xim&Xquery=abc&StartTime=#{time.to_i}&Recurrence=1&Interval=23%3A59%3A59&Type=Subscription"
 
-      stub = stub_request(:post, /108\.166\.91\.253/).
-      with(:query => 'Interval=23:59:59&Name=xim&Recurrence=1&StartTime=1336649913&Type=Subscription&Xquery=abc').to_return(sample_response)
+      stub = stub_request(:post, "http://108.166.91.253:8080/webservices/rest/communicationService/service?Interval=23:59:59&Name=xim&Recurrence=1&StartTime=#{time.to_i}&Type=Subscription&Xquery=abc").
+      with(:headers => {'Accept'=>'*/*', 'Content-Length'=>'0', 'Content-Type'=>'application/xml'}).to_return(sample_response)
 
       subscription = Subscription.new(:name => 'xim', :xquery => 'abc',
                                       :start_time => time, :recurrence => 1,

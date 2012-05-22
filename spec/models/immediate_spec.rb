@@ -17,8 +17,8 @@ describe Immediate do
 
   context "remote" do
     it "should send correct params" do
-      stub = stub_request(:post, /108\.166\.91\.253/).
-        with(:body => "Name=xim&Xquery=abc&Type=Immediate").
+      stub = stub_request(:post, 'http://108.166.91.253:8080/webservices/rest/communicationService/service?Name=xim&Type=Immediate&Xquery=abc').
+        with(:hearders => {'Accept'=>'*/*', 'Content-Length'=>'0', 'Content-Type'=>'application/xml'}).
         to_return(sample_response)
 
       service = Immediate.new(:name => 'xim', :xquery => 'abc')

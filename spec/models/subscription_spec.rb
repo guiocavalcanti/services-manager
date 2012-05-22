@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Subscription do
   let(:sample_response) do
-    response = "<ServiceId>12</ServiceId>"
+    response = "<serviceCreateResponse><serviceId>12</serviceId></serviceCreateResponse>"
     {:status => 200, :body => response,
      :headers => { 'Content-type' => 'application/xml' }}
   end

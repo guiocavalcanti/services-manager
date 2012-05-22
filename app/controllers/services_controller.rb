@@ -35,11 +35,10 @@ class ServicesController < ApplicationController
   def update
     type = params[:service].delete(:type)
     @service = Service.find(params[:id])
-    @service.update_attributes(params[:service])
 
     respond_with(@service) do |format|
       format.html do
-        if @service.save
+        if @service.update_attributes(params[:service])
           redirect_to services_path
         else
           render :edit

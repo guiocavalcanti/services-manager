@@ -3,26 +3,47 @@ class Service < ActiveRecord::Base
   validates :type,
     :inclusion => { :in => %w(Immediate Subscription Event Broadcast)}
   validate :create_on_webservice, :on => :create
+  validate :update_on_webservice, :on => :update
 
   belongs_to :user
 
   protected
 
-  def create_on_webservice(raise_errors=true)
-    response = fire_create
+  def update_on_webservice(should_raise_errors=true)
+    params = remote_params.merge({:Id => self.external_id})
+    response = fire_request(:method => :put, :params => params)
 
-    if response.success? && (result = Hash.from_xml(response.body))
-      self.external_id = result['ServiceId']
-    elsif raise_errors
-      errors.add(:remote, "remote server error (#{response.status})")
+    if !response.success?
+      remote_error(response) if should_raise_errors
     end
   end
 
-  def fire_create
-    connection.post('service') do |request|
-      request.headers['Content-Type'] = 'application/xml'
-      request.params = remote_params
+  def create_on_webservice(should_raise_errors=true)
+    response = fire_request(:method => :post, :params => self.remote_params)
+
+    if response.success?
+      result = Hash.from_xml(response.body)
+
+      unless result.blank?
+        self.external_id = result['serviceCreateResponse']['serviceId']
+      end
+    else
+      remote_error(response) if should_raise_errors
     end
+  end
+
+  def fire_request(opts)
+    method = opts.delete(:method)
+    params = opts.delete(:params)
+
+    connection.send(method.to_sym, 'service') do |request|
+      request.headers['Content-Type'] = 'application/xml'
+      request.params = params
+    end
+  end
+
+  def remote_error(response)
+    errors.add(:remote, "remote server error (#{response.status})")
   end
 
   def connection

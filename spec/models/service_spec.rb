@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Service do
   let(:sample_response) do
-    response = "<ServiceId>12</ServiceId>"
+    response = "<serviceCreateResponse><serviceId>12</serviceId></serviceCreateResponse>"
     {:status => 200, :body => response,
       :headers => { 'Content-type' => 'application/xml' }}
   end
@@ -77,6 +77,21 @@ describe Service do
 
       service.save
       service.update_attributes(:name => 'test')
+    end
+
+    it "should issue request when updating" do
+      url = "http://108.166.91.253:8080/webservices/rest/communicationService/"
+      stub_request(:any, /108\.166\.91\.253/).to_return(sample_response)
+
+      service = Immediate.create(:name => 'xim', :xquery => 'abc')
+
+      params = "Name=test&Type=Immediate&Xquery=abc&Id=#{service.external_id}"
+      stub = stub_request(:put, "#{url}service?#{params}").
+        to_return(:status => 200, :body => "", :headers => {})
+
+      service.update_attributes(:name => 'test')
+
+      stub.should have_been_requested.once
     end
   end
 end
